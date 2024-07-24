@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/ruthwik-t/social/internal/env"
+	"github.com/ruthwik-t/social/internal/store"
 )
 
 func main() {
@@ -11,8 +12,11 @@ func main() {
 		addr: env.GetString("ADDR", ":8080"),
 	}
 
+	storage := store.NewStorage(nil)
+
 	app := &application{
-		config: cfg,
+		config:  cfg,
+		storage: storage,
 	}
 
 	mux := app.mount()
