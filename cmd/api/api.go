@@ -7,24 +7,13 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/ruthwik-t/social/internal/config"
 	"github.com/ruthwik-t/social/internal/store"
 )
 
 type application struct {
-	config  config
+	config  config.Config
 	storage store.Storage
-}
-
-type config struct {
-	addr string
-	db   dbConfig
-}
-
-type dbConfig struct {
-	addr         string
-	maxOpenConns int
-	maxIdleConns int
-	maxIdleTime  string
 }
 
 func (app *application) mount() http.Handler {
@@ -50,14 +39,14 @@ func (app *application) mount() http.Handler {
 func (app *application) run(mux http.Handler) error {
 
 	srv := &http.Server{
-		Addr:         app.config.addr,
+		Addr:         app.config.Address,
 		Handler:      mux,
 		WriteTimeout: time.Second * 30,
 		ReadTimeout:  time.Second * 10,
 		IdleTimeout:  time.Minute,
 	}
 
-	log.Printf("server has started at %s", app.config.addr)
+	log.Printf("server has started at %s", app.config.Address)
 
 	return srv.ListenAndServe()
 }

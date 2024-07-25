@@ -3,33 +3,25 @@ package main
 import (
 	"log"
 
+	"github.com/ruthwik-t/social/internal/config"
 	"github.com/ruthwik-t/social/internal/db"
-	"github.com/ruthwik-t/social/internal/env"
 	"github.com/ruthwik-t/social/internal/store"
 )
 
 func main() {
-	cfg := config{
-		addr: env.GetString("ADDR", ":8080"),
-		db: dbConfig{
-			addr:         env.GetString("DB_ADDR", "postgres://user:adminpassword@localhost/social?sslmode=disable"),
-			maxOpenConns: env.GetInt("DB_MAX_DB_CONNS", 30),
-			maxIdleConns: env.GetInt("DB_MAX_DB_CONNS", 30),
-			maxIdleTime:  env.GetString("DB_MAX_IDLE_TIME", "15m"),
-		},
-	}
+	cfg := config.LoadConfig()
 
-	db, err := db.New(
-		cfg.db.addr,
-		cfg.db.maxOpenConns,
-		cfg.db.maxIdleConns,
-		cfg.db.maxIdleTime,
+	database, err := db.NewDB(
+		cfg.DB.Address,
+		cfg.DB.MaxOpenConns,
+		cfg.DB.MaxIdleConns,
+		cfg.DB.MaxIdleTime,
 	)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	storage := store.NewStorage(db)
+	storage := store.NewStorage(database)
 
 	app := &application{
 		config:  cfg,
