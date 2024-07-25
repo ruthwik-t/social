@@ -19,9 +19,9 @@ type DBConfig struct {
 
 func LoadConfig() Config {
 	return Config{
-		Address: GetString("ADDR", ":8080"),
+		Address: GetString("ADDRESS", ":8080"),
 		DB: DBConfig{
-			Address:      GetString("DB_ADDR", "postgres://user:adminpassword@localhost/social?sslmode=disable"),
+			Address:      GetString("DB_ADDRESS", "postgres://user:adminpassword@localhost/social?sslmode=disable"),
 			MaxOpenConns: GetInt("DB_MAX_DB_CONNS", 30),
 			MaxIdleConns: GetInt("DB_MAX_DB_CONNS", 30),
 			MaxIdleTime:  GetString("DB_MAX_IDLE_TIME", "15m"),
