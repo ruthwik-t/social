@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Address string
 	DB      DBConfig
+	Env     string
 }
 
 type DBConfig struct {

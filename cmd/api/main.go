@@ -8,6 +8,8 @@ import (
 	"github.com/ruthwik-t/social/internal/store"
 )
 
+const version = "0.0.1"
+
 func main() {
 	cfg := config.LoadConfig()
 
